@@ -1,0 +1,80 @@
+Linux Weather Project – Implementation Steps
+
+1. Environment Setup
+- Created a new virtual machine (AlmaLinux 9.7) in VirtualBox
+- Configuration: 2 CPU, 2 GB RAM, 20 GB disk
+- Created user: ivan
+- Successfully logged into terminal
+
+2. Network Verification
+- Command: ping -c 3 8.8.8.8
+- Result: successful (internet connectivity confirmed)
+
+3. Fetching Weather Data
+- Initial attempt: curl wttr.in → failed (HTTP issue)
+- Solution: curl https://wttr.in → successful
+
+4. Project Structure
+- Created directories:
+  mkdir -p ~/linux-pocasie-projekt/{reports,logs,docs/screenshots}
+- Navigated to project folder:
+  cd ~/linux-pocasie-projekt
+
+5. Script Creation
+- Created weather.sh script
+- Initial content:
+  curl https://wttr.in
+- Set executable permission:
+  chmod +x weather.sh
+- Executed script:
+  ./weather.sh
+
+6. Saving Output
+- Updated script to save output:
+  curl https://wttr.in > reports/weather.txt
+- Verified output:
+  cat reports/weather.txt
+
+7. Logging Implementation
+- Added timestamp logging:
+  echo "===== $(date) =====" >> logs/weather.log
+- Logged execution message
+- Verified log:
+  cat logs/weather.log
+
+8. City Specification
+- Updated script to fetch weather for Bratislava:
+  curl https://wttr.in/bratislava
+
+9. Debugging and Fixes
+- Switched from HTTP to HTTPS
+- Fixed command typos (date)
+- Learned difference:
+  $(date) → command execution
+  ${date} → variable
+- Used absolute paths (/home/ivan/...)
+- Understood:
+  >  overwrites file
+  >> appends to file
+
+10. Automation with Cron
+- Opened crontab:
+  crontab -e
+- Added scheduled task:
+  * * * * * /home/ivan/linux-pocasie-projekt/weather.sh
+- Verified:
+  crontab -l
+
+11. Testing Automation
+- Cleared log:
+  > logs/weather.log
+- Waited for cron execution
+- Verified:
+  cat logs/weather.log
+- Result: new log entry every minute
+
+Conclusion:
+- Script automatically fetches weather data
+- Output is saved into a file
+- Execution is logged with timestamps
+- Cron ensures periodic automation
