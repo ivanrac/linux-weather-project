@@ -1,0 +1,6 @@
+logs/
+reports/
+*.iso
+hesla.txt
+__pycache__/
+*.pyc
