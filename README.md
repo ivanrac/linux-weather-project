@@ -97,6 +97,42 @@ Detailed implementation steps and screenshots are available in:
 - API response caching
 
 ---
+## 🌐 How to Run & Access the Application
+
+To run the Flask application in a virtualized environment (like VirtualBox) and access it from your host machine (Windows/Mac), follow these steps:
+
+### 1. Host-to-VM Networking (VirtualBox Settings)
+Before starting, ensure your Virtual Machine is visible to your host computer:
+* Go to **Settings** -> **Network** -> **Adapter 1**.
+* Attached to: **Bridged Adapter** 
+* This gives your VM its own IP address in your local network (e.g., `192.168.31.22`).
+
+### 2. Configure AlmaLinux Firewall
+AlmaLinux blocks incoming traffic by default. You must open port `8080` to allow your host browser to connect:
+```bash
+sudo firewall-cmd --add-port=8080/tcp --permanent
+sudo firewall-cmd --reload
+
+3. Launch the Application
+Run the following commands in your project folder. We use --host=0.0.0.0 to tell Flask to listen on all network interfaces (not just internal localhost).
+
+Bash
+# Optional: Clear the port if it's already in use
+sudo fuser -k 8080/tcp 2>/dev/null
+
+# Start the Flask app
+flask run --host=0.0.0.0 --port=8080
+4. Access via Browser
+Once the server is running, find your VM's IP address (ip addr show enp0s3) and open it in your host machine's browser:
+
+URL: http://<YOUR_VM_IP>:8080 (e.g., http://192.168.31.22:8080)
+
+🛠️ Quick Fixes
+Port already in use: Use sudo fuser -k 8080/tcp to kill the ghost process.
+
+Connection Refused: Ensure you used --host=0.0.0.0 and that your Firewall is configured to allow port 8080.
+
+Host cannot ping VM: Double-check that your Network Adapter is set to Bridged and not NAT.
 
 ## 📎 About
 
